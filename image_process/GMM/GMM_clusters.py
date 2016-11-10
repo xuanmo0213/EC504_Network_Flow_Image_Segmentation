@@ -12,7 +12,7 @@ from IPython import embed
 
 img = cv2.imread('simple.jpg')
 
-g = mixture.GMM(n_components=8)
+g = mixture.GMM(n_components=8) # tried 'full' or 'spherical' no improvememts
 Z = img.reshape((-1,3))
 Z = np.float32(Z)
 
