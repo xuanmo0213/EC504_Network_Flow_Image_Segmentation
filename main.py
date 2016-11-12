@@ -1,6 +1,6 @@
 
 # coding: utf-8
-# __author__ = qiuxuan.lin
+'__author__' == 'qiuxuan.lin'
 
 
 from datetime import datetime
