@@ -9,10 +9,11 @@ import gc
 import sys
 sys.path.append('/Users/Shane/Documents/EC504_Network_Flow_Image_Segmentation/')
 from image_process.GMM.proba import proba_gmm
-# from max_flow.image_seg import
+from max_flow.ford_folkerson import Edge, FlowNetwork
 from sklearn import decomposition
 import cv2
 import numpy as np
+from apgl.graph import SparseGraph
 
 
 def sigmoid_array(x):
@@ -33,7 +34,7 @@ if __name__ == '__main__':
 
     centroid, pixel_proba, model = proba_gmm(Z,2, 'diag')
     print "End processing: ", datetime.now()
-
+    gc.collect()
     # pca = decomposition.PCA(2, whiten= True)
     # reduced_proba = pca.fit_transform(pixel_proba)
     #
@@ -48,8 +49,13 @@ if __name__ == '__main__':
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
     #
-    # embed()
+    embed()
+    a = np.round(np.array(pixel_proba[:,0]*10))
+    b = np.round(np.array(pixel_proba[:,1]*10))
 
-
-
+    n, _ = Z.shape
+    tmp = range(0,n+2)
+    nodes = [str(key)for key in tmp]
+    nodes.append('t')
+    nodes.insert(0, 's')
 
