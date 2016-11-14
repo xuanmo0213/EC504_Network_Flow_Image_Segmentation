@@ -22,7 +22,7 @@ src = 0  # source node
 sink = 5  # sink node
 
 
-# BFS: return true if there is a path from source 's' to sink 't'
+# BFS: returns true if there is a path from source 's' to sink 't'
 # in the residual graph
 def bfs(rgraph, s, t, parent):
     global V
@@ -35,7 +35,7 @@ def bfs(rgraph, s, t, parent):
     while len(q) != 0:  # while queue is not empty
         current = q.pop()  # pop from q, give its value to current node
         for adjacent in range(V):  # for each node that is adjacent to current
-            # if this node is not visited and its in the residual graph
+            # if this node is not visited and it's in the residual graph
             if not visited[adjacent] and rgraph[current][adjacent] > 0:
                 q.insert(0, adjacent)  # push this node into the queue
                 parent[adjacent] = current  # mark its parent as the current node
@@ -43,7 +43,7 @@ def bfs(rgraph, s, t, parent):
     return visited[t]  # return whether sink node is visited
 
 
-# BFS2: return the visited node if there is a path from source 's' to sink 't'
+# BFS2: returns the visited nodes if there is a path from source 's' to sink 't'
 # in the residual graph
 def bfs2(rgraph, s, parent):
     global V
@@ -56,12 +56,12 @@ def bfs2(rgraph, s, parent):
     while len(q) != 0:  # while queue is not empty
         current = q.pop()  # pop from q, give its value to current node
         for adjacent in range(V):  # for each node that is adjacent to current
-            # if this node is not visited and its in the residual graph
+            # if this node is not visited and it's in the residual graph
             if not visited[adjacent] and rgraph[current][adjacent] > 0:
                 q.insert(0, adjacent)  # push this node into the queue
                 parent[adjacent] = current  # mark its parent as the current node
                 visited[adjacent] = True  # mark the node as visited
-    return visited  # return the nodes that is visited
+    return visited  # return the nodes that are visited
 
 
 # Doing min-cut using Ford-Fulkerson Algorithm,
