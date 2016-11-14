@@ -4,28 +4,28 @@
 # and the total values of flows along the max-flow path
 
 
-V = 6  # Number of vertices in a graph
-# Define a graph and a residual graph
-# The graph is stored as a matrix
-# values in the matrix are actual flow from one node to another
-graph = [[0 for col in range(V)] for row in range(V)]
-rgraph = [[0 for col in range(V)] for row in range(V)]
-graph = [
-         [0, 16,13,0, 0, 0 ],
-         [0, 0, 10,12,0, 0 ],
-         [0, 4, 0, 0, 14,0 ],
-         [0, 0, 9, 0, 0, 20],
-         [0, 0, 0, 7, 0, 4 ],
-         [0, 0, 0, 0, 0, 0 ]
-                            ]
-src = 0  # source node
-sink = 5  # sink node
+# V = 6  # Number of vertices in a graph
+# # Define a graph and a residual graph
+# # The graph is stored as a matrix
+# # values in the matrix are actual flow from one node to another
+# graph = [[0 for col in range(V)] for row in range(V)]
+# rgraph = [[0 for col in range(V)] for row in range(V)]
+# graph = [
+#          [0, 16,13,0, 0, 0 ],
+#          [0, 0, 10,12,0, 0 ],
+#          [0, 4, 0, 0, 14,0 ],
+#          [0, 0, 9, 0, 0, 20],
+#          [0, 0, 0, 7, 0, 4 ],
+#          [0, 0, 0, 0, 0, 0 ]
+#                             ]
+# src = 0  # source node
+# sink = 5  # sink node
 
 
 # BFS: returns true if there is a path from source 's' to sink 't'
 # in the residual graph
-def bfs(rgraph, s, t, parent):
-    global V
+def bfs(rgraph, s, t, parent, V):
+    # global V
     visited = [False for i in range(V)]  # create a list to store visited nodes
     visited[s] = True  # mark source node as visited
     parent[s] = -1  # mark parent of s as NIL(-1)
@@ -45,8 +45,8 @@ def bfs(rgraph, s, t, parent):
 
 # BFS2: returns the visited nodes if there is a path from source 's' to sink 't'
 # in the residual graph
-def bfs2(rgraph, s, parent):
-    global V
+def bfs2(rgraph, s, parent, V):
+    # global V
     visited = [False for i in range(V)]  # create a list to store visited nodes
     visited[s] = True  # mark source node as visited
     parent[s] = -1  # mark parent of s as NIL(-1)
@@ -66,8 +66,8 @@ def bfs2(rgraph, s, parent):
 
 # Doing min-cut using Ford-Fulkerson Algorithm,
 # and print the edges that are from one segment to another in the graph
-def mincut(graph, s, t):
-    global V
+def mincut(graph, s, t, V):
+    # global V
     rgraph = [[0 for col in range(V)] for row in range(V)]  # initially, f(e)=0 for all edges
     total_flow = 0  # initialize the total flow
     # initialize the residual graph, and let it be the same as the original graph
@@ -76,7 +76,7 @@ def mincut(graph, s, t):
             rgraph[i][j] = graph[i][j]
 
     parent = [0 for i in range(V)]
-    while bfs(rgraph, s, t, parent):  # while there is a s-t path
+    while bfs(rgraph, s, t, parent, V):  # while there is a s-t path
 
         # get bottleneck
         flow = float("inf")  # initialize the flow of a path
@@ -100,7 +100,7 @@ def mincut(graph, s, t):
 
     # get all nodes that are visited
     parent = [0 for i in range(V)]
-    visited = bfs2(rgraph, s, parent)
+    visited = bfs2(rgraph, s, parent, V)
 
     # print the edges that are from one segment to another in the graph
     for i in range(V):
@@ -109,6 +109,6 @@ def mincut(graph, s, t):
                 print "%d - %d" % (i, j)
     print "The total values of flows is: %d" % total_flow
 
-
-# test
-mincut(graph, src, sink)
+#
+# # test
+# mincut(graph, src, sink)
