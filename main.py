@@ -91,7 +91,7 @@ if __name__ == '__main__':
     # call mincut
     visited_nodes = mincut(graph, src, sink, V)
 
-    print "Reconstructing Image ...", datetime.now()
+    print "Reconstructing Image, hit return to quit program ...", datetime.now()
 
 
     final_label = np.array(visited_nodes[1:626])
