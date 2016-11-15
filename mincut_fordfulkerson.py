@@ -1,17 +1,19 @@
 # Python 2.7
-# Min-cut using Ford-Fulkerson Algorithm
-# returns the edges that are from one segment to another in the graph
-# and the total values of flows along the max-flow path
+# Minimum cut using Ford-Fulkerson Algorithm
+# The inputs of this algorithm are a graph stored in a matrix, the source node and the sink node.
+# The outputs are the total value of max flow and two sets that belong to either set (left, right).
+# The algorithm will also print all edges that cut the graph.
 
 
 V = 6  # Number of vertices in a graph
 # Define a graph and a residual graph
 # The graph is stored as a matrix
-# values in the matrix are actual flow from one node to another
+# Values in the matrix are capacities from one node to another
 graph = [[0 for col in range(V)] for row in range(V)]
 rgraph = [[0 for col in range(V)] for row in range(V)]
+# graph from CLRS Page 710
 graph = [
-         [0, 16,13,0, 0, 0 ],
+         [0, 16,13,0 ,0, 0 ],
          [0, 0, 10,12,0, 0 ],
          [0, 4, 0, 0, 14,0 ],
          [0, 0, 9, 0, 0, 20],
@@ -22,7 +24,7 @@ src = 0  # source node
 sink = 5  # sink node
 
 
-# BFS: returns true if there is a path from source 's' to sink 't'
+# BFS: return true if there is a path from source 's' to sink 't'
 # in the residual graph
 def bfs(rgraph, s, t, parent):
     global V
@@ -43,7 +45,7 @@ def bfs(rgraph, s, t, parent):
     return visited[t]  # return whether sink node is visited
 
 
-# BFS2: returns the visited nodes if there is a path from source 's' to sink 't'
+# BFS2: return the visited node if there is a path from source 's' to sink 't'
 # in the residual graph
 def bfs2(rgraph, s, parent):
     global V
@@ -66,6 +68,7 @@ def bfs2(rgraph, s, parent):
 
 # Doing min-cut using Ford-Fulkerson Algorithm,
 # and print the edges that are from one segment to another in the graph
+# store the nodes that belong to one of the two segments in two lists: left, right
 def mincut(graph, s, t):
     global V
     rgraph = [[0 for col in range(V)] for row in range(V)]  # initially, f(e)=0 for all edges
@@ -76,7 +79,7 @@ def mincut(graph, s, t):
             rgraph[i][j] = graph[i][j]
 
     parent = [0 for i in range(V)]
-    while bfs(rgraph, s, t, parent):  # while there is a s-t path
+    while bfs(rgraph, s, t, parent):  # while there is an s-t path
 
         # get bottleneck
         flow = float("inf")  # initialize the flow of a path
@@ -87,28 +90,46 @@ def mincut(graph, s, t):
             v = parent[v]
         bottleneck = flow
 
-        # run augument
+        # run augment
         v = t
-        while v != s:  # for each node in the path
+        while v != s:  # for each edge in the path
             u = parent[v]
             # update the residual graph
-            rgraph[v][u] += bottleneck  # if e is a forward node,  f(e) <- f(e)+b
-            rgraph[u][v] -= bottleneck  # if e is a backward node, f(e) <- f(e)-b
+            rgraph[v][u] += bottleneck  # if e is a forward edge,  f(e) <- f(e)+b
+            rgraph[u][v] -= bottleneck  # if e is a backward edge, f(e) <- f(e)-b
             v = parent[v]
 
         total_flow += bottleneck  # get the total values of flows
 
-    # get all nodes that are visited
+    # get all nodes that are visited in the updated residual graph
     parent = [0 for i in range(V)]
     visited = bfs2(rgraph, s, parent)
 
-    # print the edges that are from one segment to another in the graph
+    # classify the nodes into two segments in the graph
+    left1 = list()
+    right1 = list()
+    m = 0
+    n = 0
+    for i in range(V):
+        for j in range(V):
+            if visited[i] and not visited[j]:
+                left1.insert(m,i)
+                right1.insert(n,j)
+                m = m + 1
+                n = n + 1
+    left = list(set(left1))
+    right = list(set(right1))
+    print 'The cutting edges are:'
     for i in range(V):
         for j in range(V):
             if visited[i] and not visited[j] and graph[i][j]:
-                print "%d - %d" % (i, j)
-    print "The total values of flows is: %d" % total_flow
-
+                print "%d---%d" % (i, j)
+    return left, right, total_flow
 
 # test
-mincut(graph, src, sink)
+# CLRS Page 710
+left, right, total_flow = mincut(graph, src, sink)
+print 'The two segments are:'
+print "left = " + str(left)
+print "right = " + str(right)
+print "The total value of flows is: " + str(total_flow)
