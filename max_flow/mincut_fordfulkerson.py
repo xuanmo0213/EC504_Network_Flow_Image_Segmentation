@@ -108,6 +108,7 @@ def mincut(graph, s, t, V):
             if visited[i] and not visited[j] and graph[i][j]:
                 print "%d - %d" % (i, j)
     print "The total values of flows is: %d" % total_flow
+    return visited
 
 #
 # # test
