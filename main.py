@@ -22,6 +22,7 @@ def sigmoid_array(x):
   return 1 / (1 + np.exp(-x))
 
 if __name__ == '__main__':
+
     if len(sys.argv[1]) < 3:
         print "Please specify the name of your image!"
         exit()
@@ -80,10 +81,15 @@ if __name__ == '__main__':
     gp = graph_penalty()
 
     print gp.width, gp.height
-
     gp.dist_penalty(graph)
 
+    for i in range(1,n+1):
+        graph[0][i], graph[i][n+1] = int(a[i-1]), int(b[i-1])
+
     embed()
+
+
+
     src = 0  # source node
     sink = n + 1  # sink node
 

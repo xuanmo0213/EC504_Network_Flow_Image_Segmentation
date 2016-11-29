@@ -50,6 +50,6 @@ class graph_penalty():
                         x = (self.high(i),self. low(i))
                         y = (self.high(j),self. low(j))
 
-                        if self.penalty == 'man':  graph[i][j] = np.int(self.fsigmoid((self.manhattan_distance(x,y)/3.0))*12)
+                        if self.penalty == 'man':  graph[i][j] = np.int(self.fsigmoid((self.manhattan_distance(x,y)/1.0))*12)
 
                         if self.penalty == 'euc':  graph[i][j] = np.int(self.fsigmoid((self.euclidean_distance(x,y)/3.0))*12)
