@@ -86,7 +86,7 @@ if __name__ == '__main__':
     for i in range(1,n+1):
         graph[0][i], graph[i][n+1] = int(a[i-1]), int(b[i-1])
 
-    embed()
+    # embed()
 
 
 
