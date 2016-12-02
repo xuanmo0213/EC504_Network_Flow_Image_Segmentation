@@ -103,11 +103,11 @@ def mincut(graph, s, t, V):
     visited = bfs2(rgraph, s, parent, V)
 
     # print the edges that are from one segment to another in the graph
-    for i in range(V):
-        for j in range(V):
-            if visited[i] and not visited[j] and graph[i][j]:
-                print "%d - %d" % (i, j)
-    print "The total values of flows is: %d" % total_flow
+    # for i in range(V):
+    #     for j in range(V):
+    #         if visited[i] and not visited[j] and graph[i][j]:
+    #             print "%d - %d" % (i, j)
+    # print "The total values of flows is: %d" % total_flow
     return visited
 
 #
