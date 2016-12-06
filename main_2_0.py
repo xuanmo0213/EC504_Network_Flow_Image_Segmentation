@@ -7,8 +7,6 @@ from datetime import datetime
 import time
 from IPython import embed
 import gc
-import sys
-sys.path.append('/Users/Shane/Documents/EC504_Network_Flow_Image_Segmentation/')
 from image_process.GMM.proba import proba_gmm
 from max_flow.mincut_fordfulkerson import mincut
 from image_process.graph_utils import *
@@ -18,6 +16,8 @@ import numpy as np
 from math import *
 from scipy.misc import imresize
 import pandas as pd
+import sys
+sys.path.append('/Users/Shane/Documents/EC504_Network_Flow_Image_Segmentation/')
 
 
 # functions used to normalize and cal. scores
@@ -39,11 +39,11 @@ if __name__ == '__main__':
 
     # Downsample the image to your ideal size
     # 1. input your desired ratio
-    scalestring = input("Enter your desired scale ratio( a divisible  number pls...):  ")
+    scalestring = input("Enter your desired scale ratio:  ")
     scale_ratio = int(scalestring)
 
     # store new width and new height
-    w, h = original_width / scale_ratio, original_height / scale_ratio
+    w, h = np.int(np.floor(original_width / scale_ratio)),np.int(np.floor( original_height / scale_ratio))
     img_down = imresize(img, (h, w, 3))
     Z = img_down.reshape((-1, 3))
     Z = np.float32(Z)
@@ -55,7 +55,7 @@ if __name__ == '__main__':
 
     print "Getting likelihood scores. Time at", datetime.now()
 
-    centroid, pixel_proba, model = proba_gmm(Z, K, 'diag')
+    centroid, pixel_proba, model = proba_gmm(Z, K, 'full') # FULL performs best
     pca = decomposition.PCA(2, whiten=True)
     reduced_proba = pca.fit_transform(pixel_proba)
     reduced_proba = sigmoid_array(reduced_proba)  # map PCA results into (0,1) space
@@ -110,17 +110,6 @@ if __name__ == '__main__':
     res_new2 = res_new.reshape((h, w, 3))
 
     res2_restore = imresize(res_new2, (original_height, original_width, 3))
-    # embed()
-
-    drawer = []
-    for i in range(original_height):
-        for j in range(original_width):
-            if res2_restore[i,j,:][0] == 255:
-                drawer.append((i,j))
-
-    show = img
-    for i in range(len(drawer)):
-        show[drawer[i][0], drawer[i][1],:] = [0,0,255]
 
 
     print "Reconstructing Image, mouse over to check the images and hit 'return' to quit program ...", datetime.now()
@@ -128,7 +117,6 @@ if __name__ == '__main__':
     cv2.imshow('Original Image', img)
     cv2.imshow('GMMed with PCA', res2)
     cv2.imshow('MinCut result', res2_restore)
-    cv2.imshow('Lining', show)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     gc.collect()

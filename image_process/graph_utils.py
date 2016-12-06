@@ -53,5 +53,5 @@ def dist_penalty(df, w, h, penalty='', file = ''):
                     df_fill[i][j] = np.int(fsigmoid((manhattan_distance(i, j, w) / 0.995)) * 14)
                 if penalty == 'euc':
                     df_fill[i][j] = np.int(fsigmoid((euclidean_distance(i, j, w) / 3.0)) * 12)
-    df_fill = (df_fill + df_fill.transpose())
-    return df_fill, sp
+    df_new = (df_fill + df_fill.transpose())
+    return df_new, sp
