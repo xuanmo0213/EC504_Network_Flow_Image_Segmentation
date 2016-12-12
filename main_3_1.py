@@ -9,7 +9,9 @@ from IPython import embed
 import gc
 from image_process.GMM.proba import proba_gmm
 from max_flow.mincut_clib import mincut
-from image_process.graph_utils import *
+# from image_process.graph_utils import *
+from image_process.graph_utils_ctypes import dist_penalty
+from image_process.edge_detect.gen_edge_mat import edges
 from sklearn import decomposition
 import cv2
 import numpy as np
@@ -77,27 +79,32 @@ if __name__ == '__main__':
 
     n = len(a)  # total number of pixels - internal "nodes"
     V = n + 2  # including source and sink, V is the dim. of the input matrix
-    df = pd.DataFrame(0, index=range(V), columns=range(V), dtype='int64')
+    # df = pd.DataFrame(0, index=range(V), columns=range(V), dtype='int64')
 
     # this may take a while
     start = time.time()
 
-    df, img_edges = dist_penalty(df, w, h, penalty='man', file = sys.argv[1])
+    # df, img_edges = dist_penalty(df, w, h, penalty='man', file = sys.argv[1])
+    #
+    # graph_tmp = [df.groupby(0)[i].apply(lambda x: x.tolist())[0] for i in range(V)]
+    #
 
-    graph_tmp = [df.groupby(0)[i].apply(lambda x: x.tolist())[0] for i in range(V)]
+    sp = np.array(edges(w, h, filename=sys.argv[1] ),dtype=np.int64)
+
+    graph = dist_penalty(sp, V, w)
 
     for i in range(1, n + 1):
-        graph_tmp[0][i], graph_tmp[i][n + 1] = int(a[i - 1]), int(b[i - 1])
+        graph[0][i], graph[i][n + 1] = int(a[i - 1]), int(b[i - 1])
 
     end = time.time()
     print "Graph adjacency matrix init. took %f seconds. " % (end - start)
 
     # embed()
-    del df, start, end
-    graph = np.array(graph_tmp, np.int64)
-
-    # embed()
-    del graph_tmp
+    # del df, start, end
+    # graph = np.array(graph_tmp, np.int32)
+    #
+    # # embed()
+    # del graph_tmp
 
     src = 0  # source node
     sink = n + 1  # sink node

@@ -1,12 +1,12 @@
 import numpy as np
 from numpy.ctypeslib import ndpointer
 import ctypes
-from IPython import embed
+# from IPython import embed
 
-_intpp1 = ndpointer(dtype=np.int32, ndim=1, flags='C', shape=None)
+_intpp1 = ndpointer(dtype=np.int64, ndim=1, flags='C', shape=None)
 # _intpp2 = ndpointer(dtype=np.int32, ndim=1)
 
-_dll = ctypes.CDLL('dist_penalty.so')
+_dll = ctypes.CDLL('image_process/dist_penalty.so')
 
 _dist_penalty = _dll.penalty
 _dist_penalty.argtypes = [ctypes.c_int, ctypes.c_int, _intpp1, ctypes.c_int ]
@@ -24,12 +24,12 @@ def dist_penalty(sp, V, w):
     res3 = res2 + res2.transpose()
     return res3
 
-if __name__ == '__main__':
-
-    sp = np.array([2, 3, 6], np.int32)
-    print type(sp.shape)
-    graph = dist_penalty(sp,12, 2)
-
-
-    embed()
-    # print type(res)
+# if __name__ == '__main__':
+#
+#     sp = np.array([2, 3, 6], np.int32)
+#     print type(sp.shape)
+#     graph = dist_penalty(sp,12, 2)
+#
+#
+#     embed()
+#     # print type(res)
