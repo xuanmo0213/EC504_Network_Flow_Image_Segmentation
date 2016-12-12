@@ -22,7 +22,7 @@ typedef struct node node;
 void enQueue(node *head, int num);
 int isEmpty(node *head);
 int deQueue(node *head);
-bool bfs(int x,int y,int rgraph[x][y], int s, int t, int len, int parent[len], int V);
+bool bfs(int x,int y,int** rgraph, int s, int t, int len, int parent[len], int V);
 bool *mincut(int x, int y, int graph[x][y], int s, int t, int V);
 
 void enQueue(node *head, int num)
@@ -57,7 +57,7 @@ int deQueue(node *head)
 }
 
 
-bool bfs(int x,int y,int rgraph[x][y], int s, int t, int len, int parent[len], int V){
+bool bfs(int x,int y,int **rgraph, int s, int t, int len, int parent[len], int V){
 	bool visited[V];
 	int current;
 	int i;
@@ -93,9 +93,24 @@ bool bfs(int x,int y,int rgraph[x][y], int s, int t, int len, int parent[len], i
 
 
 bool *mincut(int x, int y, int graph[x][y], int s, int t, int V){
-	int rgraph[x][y];
+	//int rgraph[x][y];
+	//int *rgraph[x];
+	int i,j;
+    int** rgraph;
+
+    rgraph = malloc(x * sizeof(int*));
+    for (i = 0; i < x; i++) {
+        rgraph[i] = malloc(y * sizeof(int));
+    }
+
 	int total_flow = 0;
-	memcpy( rgraph, graph, sizeof(rgraph) );
+    for(i = 0; i<x; i++){
+	for (j = 0 ; j<y; j++)
+    {
+        rgraph[i][j] = graph[i][j];
+    }
+}
+	//memcpy( rgraph, graph, sizeof(graph) );
 	int parent[V];
 	int u;
 	while (bfs(x,y,rgraph,s,t,V,parent,V))
@@ -129,7 +144,6 @@ bool *mincut(int x, int y, int graph[x][y], int s, int t, int V){
 	int len = 6;
 	bool * visited;
 	visited = (bool*)malloc(sizeof(bool));
-	int j;
 	for (j=0;j<V;j++){
 		visited[j] = false;
 	}
@@ -157,27 +171,31 @@ bool *mincut(int x, int y, int graph[x][y], int s, int t, int V){
 		}
 
 	}
+	for (i = 0; i < x; i++) {
+    free(rgraph[i]);
+    }
+    free(rgraph);
 	return visited;
 
 }
-/*
-int main() {
+//
+//int main() {
+//
+//int graph[6][6] = { 0,16,13,0,0,0,0,0,10,12,0,0,0,4,0,0,14,0,0,0,9,0,0,20,0,0,0,7,0,4,0,0,0,0,0,0};
+//int s = 0;
+//int t = 5;
+//int V = 6;
+//int x = 6;
+//int y = 6;
+//bool *result;
+//
+//result = mincut(x,y,graph,s,t,V);
+//int i;
+//for ( i = 0; i < 10; i++ ) {
+//      printf( "*(result + %d) : %d\n", i, result[i]);
+// }
 
-int graph[6][6] = { 0,16,13,0,0,0,0,0,10,12,0,0,0,4,0,0,14,0,0,0,9,0,0,20,0,0,0,7,0,4,0,0,0,0,0,0};
-int s = 0;
-int t = 5;
-int V = 6;
-int x = 6;
-int y = 6;
-bool *result;
-
-result = mincut(x,y,graph,s,t,V);
-int i;
-for ( i = 0; i < 10; i++ ) {
-      printf( "*(result + %d) : %d\n", i, result[i]);
- }
-
-}*/
+//}
 
 
 

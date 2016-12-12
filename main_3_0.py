@@ -109,7 +109,7 @@ if __name__ == '__main__':
     visited_nodes = mincut(graph, src, sink, V)
 
     end = time.time()
-    print "Maxflow took  %f minute. " % ((end - start) / 60)
+    print "Maxflow took  %f secs. " % (end - start)
 
     final_label = np.array(visited_nodes[1:w * h + 1])
     final_label = final_label * 1
