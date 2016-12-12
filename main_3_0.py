@@ -1,5 +1,5 @@
 '__author__' == 'qiuxuan.lin'
-# coding: utf-8                     
+# coding: utf-8
 # Python 2.7.11
 
 
@@ -8,7 +8,7 @@ import time
 from IPython import embed
 import gc
 from image_process.GMM.proba import proba_gmm
-from max_flow.mincut_fordfulkerson import mincut
+from max_flow.mincut_clib import mincut
 from image_process.graph_utils import *
 from sklearn import decomposition
 import cv2
@@ -17,7 +17,8 @@ from scipy.misc import imresize
 import pandas as pd
 import sys
 sys.path.append('/Users/Shane/Documents/EC504_Network_Flow_Image_Segmentation/')
-
+import subprocess
+subprocess.Popen('ulimit -v unlimited', shell=True)
 
 # functions used to normalize and cal. scores
 def sigmoid_array(x):
@@ -95,6 +96,7 @@ if __name__ == '__main__':
     del df, start, end
     graph = np.array(graph_tmp, np.int32)
 
+    # embed()
     del graph_tmp
 
     src = 0  # source node
