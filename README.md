@@ -18,6 +18,11 @@ then
 Along with the zip we have also put a few toy images for test.
 
 #### Now, in your commmand line
-`~/anaconda2/bin/python main.py game.png`
+`~/anaconda2/bin/python main_2_0.py game.png`
 
+Note that this is the absolute-correct-but-runs-slow version of our code. The program will prompt,
+> Your image is in size 50 * 50
+> Enter your desired scale ratio:
+
+For game.png(50-by-50), we usually choose ratio = 2 to downsample it, then it takes about 20 secs to construct the adjacency list and 3 minutes (on our laptops) for max flow. When you are finished, mouse over to the pop-up windows, check the results and hit "return" to quit.
 
