@@ -34,7 +34,6 @@ As mentioned, we have actually implemented python-ctypes binding for both mincut
 1. change your current directory to max_flow folder and you will have to compile a bfs.so using:
 `gcc -shared -Wl,-install_name,bfs.so -o bfs.so -fPIC bfs.c`
 
-in our uploaded codes, there should be one compiled bfs.so, if not you should do this.
 
 `cd ..`
 
