@@ -2,7 +2,7 @@ import numpy as np
 from numpy.ctypeslib import ndpointer 
 import ctypes 
 
-_intpp = ndpointer(dtype=np.int64, ndim=2, flags='C')
+_intpp = ndpointer(dtype=np.int32, ndim=2, flags='C')
 
 _dll = ctypes.CDLL('max_flow/bfs.so')
 

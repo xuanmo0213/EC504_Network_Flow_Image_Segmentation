@@ -53,9 +53,6 @@ if __name__ == '__main__':
     Z = img_down.reshape((-1, 3))
     Z = np.float32(Z)
 
-
-    # kstring = input("How many colors do you see in this pic? ")
-    # K = int(kstring) + 5  # human eye perceive less colors
     K = 16
 
     print "Getting likelihood scores. Time at", datetime.now()
@@ -94,7 +91,7 @@ if __name__ == '__main__':
 
     # embed()
     del df, start, end
-    graph = np.array(graph_tmp, np.int64)
+    graph = np.array(graph_tmp, np.int32)
 
     # embed()
     del graph_tmp
@@ -128,3 +125,4 @@ if __name__ == '__main__':
     cv2.waitKey(0)
     cv2.destroyAllWindows()
     gc.collect()
+
